@@ -11,7 +11,7 @@
     "linak-desk-card"
   ],
   "module": "dist/linak-desk-card.js",
-  "repository": "git@github.com:IhorSyerkov/linak-desk-card.git",
+  "repository": "git@github.com:bernikr/linak-desk-card.git",
   "author": "Ihor Syerkov <serkov.ihor@gmail.com>",
   "license": "MIT",
   "dependencies": {
