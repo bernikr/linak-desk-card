@@ -79,6 +79,7 @@ export class LinakDeskCard extends LitElement {
   get moving(): boolean {
     return this.hass.states[this.config.moving_sensor]?.state === 'on';
   }
+  
   get alpha(): number {
     return (this.relativeHeight) / (127 - 62)
   }
