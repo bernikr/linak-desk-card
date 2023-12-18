@@ -69,7 +69,7 @@ export class LinakDeskCard extends LitElement {
   }
 
   get relativeHeight(): number {
-    return this.height + 62;
+    return this.height - 62;
   }
 
   get connected(): boolean {
