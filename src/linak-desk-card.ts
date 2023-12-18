@@ -56,8 +56,12 @@ export class LinakDeskCard extends LitElement {
       throw new Error(localize('common.desk_and_height_required'));
     }
 
-    if (!config.min_height || !config.max_height) {
-      throw new Error(localize('common.min_and_max_height_required'));
+    if (!config.min_height) {
+      config.min_height = 62;
+    }
+
+    if (!config.max_height) {
+      config.max_height = 127;
     }
 
     this.config = { ...config };
@@ -72,7 +76,7 @@ export class LinakDeskCard extends LitElement {
   }
 
   get relativeHeight(): number {
-    return parseInt(this.hass.states[this.config.height_sensor]?.state, 10) || 0;
+    return parseInt(this.hass.states[this.config.height_sensor]?.state, 10)-62 || 0;
   }
 
   get connected(): boolean {
