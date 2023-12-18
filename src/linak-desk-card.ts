@@ -56,14 +56,6 @@ export class LinakDeskCard extends LitElement {
       throw new Error(localize('common.desk_and_height_required'));
     }
 
-    if (!config.min_height) {
-      config.min_height = 62;
-    }
-
-    if (!config.max_height) {
-      config.max_height = 127;
-    }
-
     this.config = { ...config };
   }
 
@@ -72,11 +64,12 @@ export class LinakDeskCard extends LitElement {
   }
 
   get height(): number {
-    return this.relativeHeight + this.config.min_height;
+    return parseInt(this.hass.states[this.config.height_sensor]?.state, 10) || 0;
+    
   }
 
   get relativeHeight(): number {
-    return parseInt(this.hass.states[this.config.height_sensor]?.state, 10)-62 || 0;
+    return this.height + 62;
   }
 
   get connected(): boolean {
@@ -87,7 +80,7 @@ export class LinakDeskCard extends LitElement {
     return this.hass.states[this.config.moving_sensor]?.state === 'on';
   }
   get alpha(): number {
-    return (this.relativeHeight) / (this.config.max_height - this.config.min_height)
+    return (this.relativeHeight) / (127 - 62)
   }
 
   protected shouldUpdate(changedProps: PropertyValues): boolean {
@@ -166,12 +159,12 @@ export class LinakDeskCard extends LitElement {
   }
 
   handlePreset(target: number): void {
-    if (target > this.config.max_height) {
+    if (target > 127) {
       return;
     }
 
-    const travelDist = this.config.max_height - this.config.min_height;
-    const positionInPercent = Math.round(((target - this.config.min_height) / travelDist) * 100);
+    const travelDist = 127 - 62;
+    const positionInPercent = Math.round(((target - 62) / travelDist) * 100);
 
     if (Number.isInteger(positionInPercent)) {
       this.callService('set_cover_position', { position: positionInPercent });
